@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090c16">
+<title>Read Binary Text</title>
+<!--
+MIT License
+
+Copyright (c) 2026 bem130
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<style>
+/* Shared colors, surfaces and controls from ../automatajudge/index.html. */
+:root {
+  --page: #090c16;
+  --panel: #052032;
+  --surface: #03071a;
+  --surface-hover: #05203a;
+  --surface-active: #163c4d;
+  --line: #2b6583;
+  --line-strong: #8ba8ba;
+  --text: #dce4e8;
+  --muted: #aab7c1;
+  --accent: #a9ced0;
+  --warning: #e5b784;
+  --radius-panel: 5px;
+  --radius-control: 10px;
+  --radius-track: 3px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--page);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); line-height: 1.6; }
+main { width: min(100%, 480px); min-height: 100svh; margin: auto; padding: max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.brand { font-weight: 800; letter-spacing: .12em; font-size: 14px; color: var(--text); }
+.tag, .muted, .small { font-size: 12px; }
+.tag, .muted { color: var(--muted); }
+.mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+h1, h2, p { margin-top: 0; }
+h2 { font-size: 20px; line-height: 1.4; }
+.accent { color: var(--accent); }
+.card { border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius-panel); padding: 12px; }
+.start-screen { margin: auto 0; text-align: center; padding: 26px 20px; }
+.start-screen .icon { display: grid; place-items: center; margin: 0 auto 18px; width: 68px; height: 68px; border: 2px solid var(--accent); border-radius: 50%; background: var(--surface); color: var(--accent); font-size: 24px; font-weight: 800; }
+.start-screen h1 { font-size: 28px; letter-spacing: -.03em; margin: 0 0 8px; }
+.start-screen p { line-height: 1.7; font-size: 13px; }
+.start-screen .eyebrow { font-size: 12px; color: var(--muted); }
+.rules { text-align: left; line-height: 1.7; padding-left: 24px; font-size: 13px; color: var(--text); }
+.rules li + li { margin-top: 6px; }
+button, input { font: inherit; }
+button { cursor: pointer; min-height: 56px; border-radius: var(--radius-control); border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 700; padding: 10px 14px; transition: transform .12s, background .15s, border-color .15s; touch-action: manipulation; }
+button.primary { border-color: var(--accent); color: var(--accent); }
+button:active:not(:disabled) { transform: scale(.97); background: var(--surface-active); }
+button:focus-visible, input:focus-visible, details summary:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+[tabindex="-1"], #answer { scroll-margin-top: 12px; }
+button:disabled { opacity: .45; cursor: default; }
+.full { width: 100%; }
+.actions { display: grid; gap: 10px; margin-top: 16px; }
+.status { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.status strong { font-size: 17px; color: var(--accent); }
+.progress { height: 4px; flex-shrink: 0; background: var(--panel); border-radius: var(--radius-track); overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+.question-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.question-title h2 { font-size: 16px; margin: 0; }
+.pill { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.board { margin: 10px 0 16px; }
+.diagram-scroll { max-width: 100%; overflow-x: auto; padding: 3px; }
+.diagram-scroll svg { display: block; max-width: none; margin-inline: auto; }
+.legend { display: flex; justify-content: center; gap: 20px; font-size: 11px; color: var(--muted); text-align: center; margin-top: 6px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--line-strong); margin-right: 5px; }
+.light { background: var(--accent); }
+.dark { background: var(--surface); }
+.field { display: block; font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+input { width: 100%; min-width: 0; min-height: 56px; border: 1px solid var(--line-strong); border-radius: var(--radius-control); background: var(--surface); color: var(--text); padding: 10px 12px; font-size: 21px; font-family: ui-monospace, Consolas, monospace; letter-spacing: 3px; }
+input::placeholder { font-size: 16px; letter-spacing: 1px; color: var(--muted); }
+.form-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.notice { min-height: 24px; font-size: 13px; margin: 8px 0 0; color: var(--muted); }
+.notice.error { color: var(--warning); }
+.notice.success { color: var(--accent); font-weight: 700; }
+.tools { display: flex; gap: 8px; margin-top: 10px; }
+.tools button { flex: 1; min-height: 48px; padding: 8px; font-size: 12px; }
+.hint { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+.reference-board { margin: 12px 0 0; }
+details { font-size: 12px; color: var(--muted); }
+summary { cursor: pointer; min-height: 48px; display: flex; align-items: center; border-radius: var(--radius-panel); }
+summary::before { content: '▸'; margin-right: 8px; }
+details[open] > summary::before { content: '▾'; }
+.decode { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.byte { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 8px; text-align: center; flex: 1; min-width: 94px; }
+.byte strong { font-size: 21px; color: var(--accent); display: block; }
+.byte span { font-size: 11px; display: block; }
+.score { font-size: 64px; line-height: 1; margin: 20px 0 8px; color: var(--accent); }
+.result { text-align: center; padding: 26px 20px; margin-top: auto; }
+.result-list { margin-top: 18px; }
+.result-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 8px 0; font-size: 13px; }
+.result-row:last-child { border: 0; }
+.practice-note { font-size: 13px; color: var(--text); }
+button, header, .board svg, .legend, .progress, .icon, summary { -webkit-user-select: none; user-select: none; }
+@media (hover: hover) { button:hover:not(:disabled) { background: var(--surface-hover); border-color: var(--line-strong); } button.primary:hover:not(:disabled) { border-color: var(--accent); } summary:hover { color: var(--accent); } }
+@media (max-width: 350px) { main { padding-left: 12px; padding-right: 12px; } .start-screen { padding: 20px 14px; } .tools { flex-direction: column; } }
+@media (max-height: 650px) { main { gap: 6px; padding-top: 8px; } .start-screen { padding: 15px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body><main id="app"></main>
+<script>
+'use strict';
+// Pixel layout follows https://github.com/bem130/visualBinary :
+// timing, MSB-first data (bit 7..0), dark spacer. ASCII is a subset of UTF-8.
+const ROUND_LENGTHS=[2,2,3,3,4,4,5,6];
+const WORDS={
+ 2:[
+  'AI','GO','HI','OK','UP','ON','NO','IT',
+  'AM','AN','AS','AT','BE','BY','DO','HE',
+  'IF','IN','IS','ME','MY','OF','OR','OX',
+  'SO','TO','US','WE','PC','OS','UI','UX',
+  'IP','ID','IO','TV','VR','AR','ML','DB'
+ ],
+ 3:[
+  'CAT','DOG','SUN','SKY','KEY','BIT','RAM','FOX','CPU','ICE',
+  'ANT','APE','ARM','BAG','BAT','BED','BEE','BOX','BUS','CAR',
+  'COW','CUP','DAY','EGG','EYE','FAN','FAR','FAT','FIT','FLY',
+  'HAT','HEN','HOT','INK','JAM','JAR','JET','JOB','JOY','LAW',
+  'LEG','LIP','LOG','MAP','NET','NEW','NOW','OAK','OWL','PEN'
+ ],
+ 4:[
+  'CODE','BYTE','MOON','STAR','GAME','DATA','WAVE','MINT','LOOP','ZERO',
+  'ATOM','BIRD','BLUE','BOAT','BOOK','CAKE','CALM','CITY','CLAY','COIN',
+  'COLD','COOK','COOL','DARK','DAWN','DESK','DOOR','DRAW','DROP','DRUM',
+  'DUST','ECHO','EDGE','FARM','FAST','FILE','FIRE','FISH','FLAG','FLOW',
+  'FOOD','FORK','FROG','FUEL','GATE','GLOW','GOLD','HAND','HILL','HOME'
+ ],
+ 5:[
+  'HELLO','WORLD','PIXEL','LIGHT','LOGIC','ASCII','INPUT','GREEN',
+  'APPLE','BEACH','BERRY','BREAD','BRICK','CHAIR','CLOUD','CORAL',
+  'CROWN','DANCE','DREAM','EARTH','FIELD','FLAME','FLOOR','FOCUS',
+  'FRUIT','GLASS','GRAPE','GRASS','HEART','HONEY','HORSE','HOUSE',
+  'LASER','LEMON','MAGIC','METAL','MOUSE','MUSIC','NIGHT','OCEAN'
+ ],
+ 6:[
+  'BINARY','DECODE','SIGNAL','PUZZLE','OUTPUT','SCREEN','MEMORY','PLANET',
+  'ACTION','ALMOND','ANIMAL','BACKUP','BAMBOO','BASKET','BOTTLE','BRANCH',
+  'BRIDGE','BRIGHT','BUTTON','CAMERA','CANDLE','CASTLE','CHERRY','CIRCLE',
+  'COFFEE','COPPER','COTTON','CURSOR','DESERT','DRAGON','ENERGY','ENGINE',
+  'FAMILY','FILTER','FLOWER','FOREST','FROZEN','GALAXY','GARDEN','GUITAR'
+ ]
+};
+const SWIPLA_ORIGIN='https://swipla.co';
+let state={screen:'menu'};
+const app=document.getElementById('app');
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function encodeColumns(text){
+ return Array.from(text,(char,index)=>{const byte=char.codePointAt(0);if(byte>127)throw new Error('ASCIIのみ対応');return [Math.floor(index/2)%2===0?1:0,...Array.from({length:8},(_,row)=>(byte>>(7-row))&1),0]});
+}
+function makeQuestions(random=Math.random){
+ const used=new Set();return ROUND_LENGTHS.map(length=>{const pool=WORDS[length].filter(word=>!used.has(word));const word=pool[Math.floor(random()*pool.length)];used.add(word);return word});
+}
+function question(){return state.practice?'A':state.questions[state.index]}
+function availablePoints(){return Math.max(0,100-state.wrong*20-(state.hint?40:0))}
+function board(text,{reference=false}={}){
+ // Keep labels at 1rem; narrow screens scroll instead of shrinking the diagram.
+ const columns=encodeColumns(text),size=24,left=64,top=28,width=left+columns.length*size+(reference?12:48),height=top+10*size+8;
+ const bits=columns.map((column,index)=>`${reference?text[index]:`${index+1}列目`}：${column.slice(1,9).join('、')}`).join('。');
+ const description=`${reference?'ASCII早見表。':text.length+'バイトのバイナリ画像。'}各列は上からタイミング行、ビット7から0、余白。明色は1、暗色は0。データ8ビットを上から順に読みます。${bits}。`;
+ let shapes='';
+ for(let row=0;row<10;row++){
+  const label=row===0?'SYNC':row===9?'SPACE':`b${8-row}`;
+  shapes+=`<text x="56" y="${top+row*size+17}" text-anchor="end" fill="#aab7c1" font-size="16">${label}</text>`;
+  if(!reference&&row>0&&row<9)shapes+=`<text x="${left+columns.length*size+8}" y="${top+row*size+17}" fill="#aab7c1" font-size="16">${2**(8-row)}</text>`;
+ }
+ columns.forEach((column,x)=>{
+  shapes+=`<text x="${left+x*size+size/2}" y="18" text-anchor="middle" fill="${reference?'#a9ced0':'#aab7c1'}" font-size="16">${reference?escapeHTML(text[x]):x+1}</text>`;
+  column.forEach((bit,y)=>{shapes+=`<rect data-column="${x}" data-row="${y}" x="${left+x*size}" y="${top+y*size}" width="${size}" height="${size}" fill="${bit?'#a9ced0':'#03071a'}"/>`});
+ });
+ return `<div class="diagram-scroll" tabindex="0" role="region" aria-label="${reference?'早見表':'問題の画像'}。幅が足りない場合は横にスクロールできます"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHTML(description)}" style="width:${width/16}rem;height:${height/16}rem;font-family:ui-monospace,Consolas,monospace"><g shape-rendering="crispEdges">${shapes}</g></svg></div>`;
+}
+function header(){return '<header><div class="brand">READ BINARY TEXT</div><span class="tag mono">ASCII / 8 BIT</span></header>'}
+function rules(){return '<ol class="rules"><li><b>左から1列ずつ</b>読む。1列が1バイト＝1文字。</li><li>最上段の <b>SYNC</b> は明・明・暗・暗の繰り返し。データには含めない。</li><li>その下の8段は<b>上からビット7→0</b>。明色が1、暗色が0。右の数値は各ビットの重み。</li><li>明色の重みを足し、ASCIIコードを文字に変換する。最下段の SPACE は暗色の余白。</li></ol>'}
+function legend(){return '<div class="legend"><span><i class="swatch light"></i>1 / 明色</span><span><i class="swatch dark"></i>0 / 暗色</span></div>'}
+function reference(){return `<section class="hint" aria-labelledby="hint-title"><h2 id="hint-title" tabindex="-1">ASCII早見表（ビット画像）</h2><p class="small muted">文字の下の1列が、その文字の画像。問題と同じ明暗の並びを探そう。比較するのは b7〜b0 の8段。表は横にスクロールできます。</p><button class="full" data-action="return-input">入力に戻る</button>${['ABCDEFGHIJKLM','NOPQRSTUVWXYZ'].map(letters=>`<div class="reference-board">${board(letters,{reference:true})}</div>`).join('')}<button class="full" data-action="return-input">入力に戻る</button></section>`}
+function explanation(text){return `<div class="decode">${Array.from(text,char=>{const value=char.charCodeAt(0);return `<div class="byte mono"><strong>${char}</strong><span>${value.toString(2).padStart(8,'0')}</span><span>0x${value.toString(16).toUpperCase()} / ${value}</span></div>`}).join('')}</div>`}
+function focusSection(id,block='start'){
+ const target=document.getElementById(id);
+ target.focus({preventScroll:true});
+ target.scrollIntoView({block,behavior:'auto'});
+}
+function start(practice=false){state={screen:'question',practice,questions:practice?['A']:makeQuestions(),index:0,score:0,results:[],wrong:0,hint:false,input:'',message:'',kind:'',earned:0};render();focusSection('answer','center')}
+function submit(value){
+ if(state.screen!=='question')return;
+ const answer=value.trim().toUpperCase();state.input=value;
+ if(!/^[A-Z]+$/.test(answer)||answer.length!==question().length){state.message=`半角英字${question().length}文字で入力してください（減点なし）。`;state.kind='error';updateNotice();return}
+ if(answer!==question()){
+  const previousPoints=availablePoints();state.wrong++;
+  state.message=state.practice?'まだ違うようです。明色の段をもう一度確認しよう。':previousPoints===0?'まだ違うようです。この問題の獲得可能点は0点です（追加の減点なし）。':'まだ違うようです。もう一度読んでみよう（−20点）。';
+  state.kind='error';updateNotice();return;
+ }
+ finishQuestion(false);
+}
+function updateNotice(){document.getElementById('notice').textContent=state.message;document.getElementById('notice').className=`notice ${state.kind}`;document.getElementById('available').textContent=state.practice?'練習 / 得点なし':`正解で ${availablePoints()} pt`}
+function finishQuestion(revealed){
+ if(state.screen!=='question')return;
+ state.earned=state.practice||revealed?0:availablePoints();state.score+=state.earned;state.revealed=revealed;
+ if(!state.practice)state.results.push({word:question(),points:state.earned,revealed});
+ state.screen='review';render();focusSection('next','center');
+}
+function next(){
+ if(state.screen!=='review')return;
+ if(state.practice){start();return}
+ if(state.index===state.questions.length-1){state.screen='result';render();focusSection('result-title');if(window.parent!==window)window.parent.postMessage({type:'gameover',score:state.score},SWIPLA_ORIGIN);return}
+ Object.assign(state,{screen:'question',index:state.index+1,wrong:0,hint:false,input:'',message:'',kind:'',earned:0});render();focusSection('answer','center');
+}
+function showHint(){if(state.screen!=='question')return;if(!state.hint){state.hint=true;render()}focusSection('hint-title')}
+function render(){
+ let html=header();
+ if(state.screen==='menu'){
+  html=`<section class="card start-screen"><div class="icon mono">01</div><p class="eyebrow">A LITTLE GAME OF BINARY</p><h1 id="menu-title" tabindex="-1">Read Binary Text</h1><p>明暗のマスを読んで、隠れた文字列を解読しよう。</p>${rules()}<p><b>本番は全8問・800点満点</b><br>英大文字 A〜Z、2文字から6文字へ。時間制限なし。<br>各問100点。不正解は−20点、早見表は−40点。<br>答えを見た問題は0点。小文字入力も受け付ける。</p><div class="actions"><button class="primary full" data-action="practice">まずは練習する（1文字）</button><button class="secondary full" data-action="start">練習をスキップして本番へ</button></div></section>`;
+ }else if(state.screen==='result'){
+  const solved=state.results.filter(item=>!item.revealed).length;
+  html+=`<section class="card result"><p class="eyebrow mono">TRANSMISSION COMPLETE</p><h2 id="result-title" tabindex="-1">解読、おつかれさま。</h2><div class="score mono">${state.score}</div><p class="muted mono">/ 800 pt</p><p class="small muted">${solved} / 8 問を解読</p><div class="result-list">${state.results.map(item=>`<div class="result-row mono"><span>${item.word}${item.revealed?' <span class="muted small">答えを表示</span>':''}</span><span>${item.points} pt</span></div>`).join('')}</div></section><div class="actions"><button class="primary" data-action="start">別の問題でもう一度 →</button><button class="secondary" data-action="menu">タイトルへ</button></div>`;
+ }else{
+  const text=question(),review=state.screen==='review';
+  html+=`<div class="status"><span class="mono">${state.practice?'PRACTICE':`QUESTION ${String(state.index+1).padStart(2,'0')} / 08`}</span><span>${state.practice?'時間制限なし':`<strong class="mono">${state.score}</strong> / 800 pt`}</span></div><div class="progress"><span style="width:${state.practice?0:(state.index+(review?1:0))/8*100}%"></span></div><section class="card"><div class="question-title"><h2 id="question-title" tabindex="-1">${state.practice?'まずは1文字、読んでみよう':review?'文字列を確認しよう':'この画像を解読せよ'}</h2><span class="pill mono">${text.length} BYTE${text.length>1?'S':''}</span></div><div class="board">${board(text)}${legend()}</div>`;
+  if(state.practice)html+='<p class="practice-note">SYNCの下から8段がデータ。明るいのは <b class="accent">64</b> と <b class="accent">1</b> の段。足すと65。ASCIIの65は <b class="accent">A</b> なので、Aと入力してみよう。</p>';
+  if(review){html+=`<p id="answer-result" class="notice ${state.revealed?'':'success'}">${state.revealed?`答えは ${text}。この問題は0点。`:state.practice?`正解！ 答えは ${text}。この読み方で、次は単語を解読しよう。`:`正解！ 答えは ${text}。${state.earned}点獲得。`}</p>${explanation(text)}<p class="small muted" style="margin-top:12px">2進数は画像のデータ行と同じ、上から下の順。</p><button id="next" class="primary full" data-action="next" aria-describedby="answer-result">${state.practice?'本番を始める':state.index===7?'結果を見る':'次の文字列へ'} →</button>`}
+  else{
+   html+=`<div role="group" aria-labelledby="answer-label"><label id="answer-label" class="field" for="answer">読み取った${text.length}文字を入力（英大文字 A〜Z）</label><div class="form-row"><input id="answer" name="answer" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="${'＿'.repeat(text.length)}" value="${escapeHTML(state.input)}" aria-describedby="notice"><button class="primary" type="button" data-action="answer">答える →</button></div></div><p id="notice" role="status" class="notice ${state.kind}">${escapeHTML(state.message)}</p><div id="available" class="small muted">${state.practice?'練習 / 得点なし':`正解で ${availablePoints()} pt`}</div><div class="tools"><button data-action="hint">${state.hint?'早見表へ（表示中）':`ASCII早見表${state.practice?'':'（−40点）'}`}</button><button data-action="reveal">答えを見る${state.practice?'':'（0点）'}</button></div>${state.hint?reference():''}`;
+  }
+  html+=`</section><details><summary>画像の読み方を確認</summary>${rules()}</details>`;
+ }
+ app.innerHTML=html;
+}
+// swipla omits allow-forms: handle answers without native form submission.
+function submitAnswer(){if(state.screen==='question')submit(document.getElementById('answer').value)}
+app.addEventListener('keydown',event=>{
+ if(event.target.id!=='answer'||event.key!=='Enter'||event.isComposing||event.keyCode===229)return;
+ event.preventDefault();
+ if(!event.repeat)submitAnswer();
+});
+app.addEventListener('input',event=>{if(event.target.id==='answer')state.input=event.target.value});
+app.addEventListener('click',event=>{const button=event.target.closest('button[data-action]');if(!button||button.disabled)return;const action=button.dataset.action;if(action==='answer')submitAnswer();else if(action==='practice')start(true);else if(action==='start')start();else if(action==='hint')showHint();else if(action==='return-input'&&state.screen==='question')focusSection('answer','center');else if(action==='reveal')finishQuestion(true);else if(action==='next')next();else if(action==='menu'){state={screen:'menu'};render();focusSection('menu-title')}});
+render();
+</script></body>
+</html>
