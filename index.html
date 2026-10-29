@@ -132,39 +132,124 @@ button, header, .board svg, .legend, .progress, .icon, summary { -webkit-user-se
 const ROUND_LENGTHS=[2,2,3,3,4,4,5,6];
 const WORDS={
  2:[
-  'AI','GO','HI','OK','UP','ON','NO','IT',
-  'AM','AN','AS','AT','BE','BY','DO','HE',
-  'IF','IN','IS','ME','MY','OF','OR','OX',
-  'SO','TO','US','WE','PC','OS','UI','UX',
-  'IP','ID','IO','TV','VR','AR','ML','DB'
+  'AI','GO','HI','OK','UP','ON','NO','IT','AM','AN',
+  'AS','AT','BE','BY','DO','HE','IF','IN','IS','ME',
+  'MY','OF','OR','OX','SO','TO','US','WE','PC','OS',
+  'UI','UX','IP','ID','IO','TV','VR','AR','ML','DB',
+  'JP','GB','CA','AU','NZ','FR','DE','ES','PT','NL',
+  'CH','SE','DK','FI','IE','CN','KR','TW','HK','SG',
+  'TH','VN','PH','PK','BD','LK','NP','BR','MX','CL',
+  'PE','CO','ZA','EG','KE','NG','GH','MA','TN','DZ',
+  'TR','GR','PL','CZ','SK','HU','RO','BG','HR','SI',
+  'UA','EE','LV','LT','LU','MT','CY','IL','JO','SA',
+  'AE','QA','KW','BH','OM','YE','IR','IQ','AF','KZ',
+  'UZ','KG','TJ','TM','MN','MM','KH','LA','BN','TL',
+  'BT','MV','MU','SC','MG','TZ','UG','RW','ET','SN',
+  'CM','ZM','ZW','BW','NA','MZ','AO','CD','CG','GA',
+  'BJ','TG','BF','NE','GM','GN','SL','LR','GY','SR',
+  'EC','BO','PY','UY','VE','CR','PA','GT','HN','SV',
+  'NI','BZ','CU','JM','HT','BS','BB','TT','GD','LC',
+  'VC','AG','DM','KN','AD','AL','AZ','BA','GE','MD',
+  'RS','SM','VA','MC','LI','RU','BI','CF','DJ','ER',
+  'GQ','LS','MW','MR','SD','SS','SZ','TD','FJ','PG'
  ],
  3:[
   'CAT','DOG','SUN','SKY','KEY','BIT','RAM','FOX','CPU','ICE',
   'ANT','APE','ARM','BAG','BAT','BED','BEE','BOX','BUS','CAR',
   'COW','CUP','DAY','EGG','EYE','FAN','FAR','FAT','FIT','FLY',
   'HAT','HEN','HOT','INK','JAM','JAR','JET','JOB','JOY','LAW',
-  'LEG','LIP','LOG','MAP','NET','NEW','NOW','OAK','OWL','PEN'
+  'LEG','LIP','LOG','MAP','NET','NEW','NOW','OAK','OWL','PEN',
+  'ACE','ACT','ADD','AGE','AGO','AID','AIM','AIR','ALE','ALL',
+  'AND','ANY','ARC','ARE','ART','ASK','ATE','AWE','AXE','BAD',
+  'BAN','BAR','BAY','BET','BID','BIG','BIN','BOW','BOY','BUD',
+  'BUG','BUN','BUT','BUY','CAB','CAN','CAP','COB','COD','COG',
+  'CON','COP','COT','CRY','CUB','CUE','CUT','DAD','DAM','DEN',
+  'DEW','DID','DIG','DIM','DIP','DOT','DRY','DUE','DUG','DYE',
+  'EAR','EAT','EEL','ELF','ELK','ELM','END','ERA','EVE','EWE',
+  'FAB','FAX','FED','FEE','FEW','FIG','FIN','FIR','FIX','FOG',
+  'FOR','FUN','FUR','GAP','GAS','GEL','GEM','GET','GIN','GNU',
+  'GOD','GOT','GUM','GUN','GUT','GUY','GYM','HAD','HAM','HAS',
+  'HAY','HER','HID','HIM','HIP','HIS','HIT','HOB','HOG','HOP',
+  'HOW','HUB','HUE','HUG','HUM','HUT','ILL','IMP','ION','ITS',
+  'IVY','JAW','JIG','JOG','JOT','JUG','KID','KIN','KIT','LAB',
+  'LAD','LAP','LAY','LED','LET','LID','LIE','LIT','LOT','LOW',
+  'LUG','MAD','MAN','MAT','MAX','MAY','MEN','MET','MID','MIX',
+  'MOB','MOP','MOW','MUD','MUG','NAP','NAY','NOD','NOR','NOT',
+  'NUN','NUT','OAR','OAT','ODD','OFF','OIL','OLD','ONE','OPT',
+  'ORE','OUR','OUT','OWE','OWN','PAD','PAL','PAN','PAT','PAW',
+  'PAY','PEA','PEG','PER','PET','PIE','PIG','PIN','PIT','POD',
+  'POP','POT','POW','PRO','PUB','PUG','PUN','PUP','PUT','RAG'
  ],
  4:[
   'CODE','BYTE','MOON','STAR','GAME','DATA','WAVE','MINT','LOOP','ZERO',
   'ATOM','BIRD','BLUE','BOAT','BOOK','CAKE','CALM','CITY','CLAY','COIN',
   'COLD','COOK','COOL','DARK','DAWN','DESK','DOOR','DRAW','DROP','DRUM',
   'DUST','ECHO','EDGE','FARM','FAST','FILE','FIRE','FISH','FLAG','FLOW',
-  'FOOD','FORK','FROG','FUEL','GATE','GLOW','GOLD','HAND','HILL','HOME'
+  'FOOD','FORK','FROG','FUEL','GATE','GLOW','GOLD','HAND','HILL','HOME',
+  'ABLE','ACID','ACME','ACNE','ACRE','AGED','ALSO','ALTO','AMID','ARCH',
+  'AREA','ARMY','AUNT','AUTO','AWAY','BABY','BACK','BAKE','BALD','BALL',
+  'BAND','BANK','BARE','BARK','BARN','BASE','BATH','BEAD','BEAK','BEAM',
+  'BEAN','BEAR','BEAT','BEEF','BEEN','BEER','BELL','BELT','BEND','BENT',
+  'BEST','BETA','BIAS','BIKE','BILL','BIND','BITE','BLOW','BOIL','BOLD',
+  'BOLT','BOMB','BOND','BONE','BOOM','BOOT','BORE','BORN','BOTH','BOWL',
+  'BULB','BULK','BURN','BUSH','BUSY','CAFE','CAGE','CALL','CAMP','CANE',
+  'CAPE','CARD','CARE','CART','CASE','CASH','CAVE','CELL','CHAT','CHEF',
+  'CHEW','CHIN','CHIP','CHOP','CLAP','CLAW','CLIP','CLUB','COAL','COAT',
+  'COIL','COLT','COMB','COME','CONE','COPY','CORD','CORE','CORN','COST',
+  'COZY','CREW','CROP','CUBE','CURE','CURL','CUTE','DAMP','DARE','DASH',
+  'DATE','DEAL','DEAR','DEBT','DECK','DEEP','DEER','DELI','DENT','DIAL',
+  'DICE','DIET','DIRT','DISH','DISK','DIVE','DOCK','DOME','DONE','DOSE',
+  'DOWN','DUCK','DUEL','DUET','DUKE','DULL','DUNE','DUSK','DUTY','EACH',
+  'EARN','EAST','EASY','EDIT','ELSE','ENVY','EPIC','EVEN','EVER','EVIL',
+  'EXAM','EXIT','FACE','FACT','FADE','FAIL','FAIR','FALL','FAME','FANG',
+  'FARE','FATE','FAWN','FEAR','FEED','FEEL','FEET','FELL','FELT','FERN',
+  'FEST','FINE','FIRM','FIST','FIVE','FLAT','FLEW','FLIP','FOLD','FOLK',
+  'FONT','FOOL','FOOT','FORM','FORT','FOUR','FREE','FROM','FULL','FUME',
+  'FUND','FUSE','FUSS','GAIN','GALE','GANG','GASP','GAVE','GEAR','GENE'
  ],
  5:[
-  'HELLO','WORLD','PIXEL','LIGHT','LOGIC','ASCII','INPUT','GREEN',
-  'APPLE','BEACH','BERRY','BREAD','BRICK','CHAIR','CLOUD','CORAL',
-  'CROWN','DANCE','DREAM','EARTH','FIELD','FLAME','FLOOR','FOCUS',
-  'FRUIT','GLASS','GRAPE','GRASS','HEART','HONEY','HORSE','HOUSE',
-  'LASER','LEMON','MAGIC','METAL','MOUSE','MUSIC','NIGHT','OCEAN'
+  'HELLO','WORLD','PIXEL','LIGHT','LOGIC','ASCII','INPUT','GREEN','APPLE','BEACH',
+  'BERRY','BREAD','BRICK','CHAIR','CLOUD','CORAL','CROWN','DANCE','DREAM','EARTH',
+  'FIELD','FLAME','FLOOR','FOCUS','FRUIT','GLASS','GRAPE','GRASS','HEART','HONEY',
+  'HORSE','HOUSE','LASER','LEMON','MAGIC','METAL','MOUSE','MUSIC','NIGHT','OCEAN',
+  'ABOUT','ABOVE','ACORN','ACTOR','ACUTE','ADAPT','ADMIT','ADOPT','ADULT','AFTER',
+  'AGAIN','AGENT','AGILE','AGREE','AISLE','ALARM','ALBUM','ALERT','ALGAE','ALIEN',
+  'ALIGN','ALIVE','ALLEY','ALLOW','ALONE','ALONG','ALOUD','ALTER','AMBER','AMONG',
+  'AMPLE','ANGEL','ANGER','ANGLE','ANGRY','ANKLE','APART','APRON','ARENA','ARGUE',
+  'AROMA','ARROW','ASHES','ASIDE','ASSET','ATLAS','AUDIO','AUDIT','AVOID','AWAIT',
+  'AWAKE','AWARD','AWARE','AWFUL','BADGE','BAGEL','BAKER','BASIC','BASIL','BASIN',
+  'BASIS','BATCH','BATON','BEARD','BEAST','BEGIN','BEING','BELOW','BENCH','BIRTH',
+  'BLACK','BLADE','BLAME','BLANK','BLAST','BLAZE','BLEND','BLIND','BLINK','BLOCK',
+  'BLOOM','BOARD','BOOST','BOOTH','BOUND','BRAIN','BRAKE','BRAND','BRASS','BRAVE',
+  'BRIEF','BRING','BROAD','BROOK','BROOM','BROWN','BRUSH','BUILD','BUILT','BUNCH',
+  'BURST','CABIN','CABLE','CACHE','CAMEL','CANAL','CANDY','CANOE','CARRY','CARVE',
+  'CATCH','CAUSE','CEDAR','CHAIN','CHALK','CHANT','CHARM','CHART','CHASE','CHEAP',
+  'CHEAT','CHECK','CHEEK','CHEER','CHEST','CHIEF','CHILD','CHILL','CHIME','CHINA',
+  'CHIRP','CHOIR','CHORD','CHUNK','CIDER','CLAIM','CLASS','CLEAN','CLEAR','CLERK',
+  'CLICK','CLIFF','CLIMB','CLOCK','CLOSE','CLOTH','CLOWN','COACH','COAST','COCOA',
+  'COMET','COMIC','COMMA','COUNT','COURT','COVER','CRACK','CRAFT','CRANE','CRASH'
  ],
  6:[
-  'BINARY','DECODE','SIGNAL','PUZZLE','OUTPUT','SCREEN','MEMORY','PLANET',
-  'ACTION','ALMOND','ANIMAL','BACKUP','BAMBOO','BASKET','BOTTLE','BRANCH',
-  'BRIDGE','BRIGHT','BUTTON','CAMERA','CANDLE','CASTLE','CHERRY','CIRCLE',
-  'COFFEE','COPPER','COTTON','CURSOR','DESERT','DRAGON','ENERGY','ENGINE',
-  'FAMILY','FILTER','FLOWER','FOREST','FROZEN','GALAXY','GARDEN','GUITAR'
+  'BINARY','DECODE','SIGNAL','PUZZLE','OUTPUT','SCREEN','MEMORY','PLANET','ACTION','ALMOND',
+  'ANIMAL','BACKUP','BAMBOO','BASKET','BOTTLE','BRANCH','BRIDGE','BRIGHT','BUTTON','CAMERA',
+  'CANDLE','CASTLE','CHERRY','CIRCLE','COFFEE','COPPER','COTTON','CURSOR','DESERT','DRAGON',
+  'ENERGY','ENGINE','FAMILY','FILTER','FLOWER','FOREST','FROZEN','GALAXY','GARDEN','GUITAR',
+  'ABSENT','ABSORB','ACCENT','ACCEPT','ACCESS','ACROSS','ACTIVE','ACTUAL','ADMIRE','ADVICE',
+  'AERIAL','AFFAIR','AFFORD','AFRAID','AGENCY','AGENDA','ALMOST','ALWAYS','AMOUNT','ANCHOR',
+  'ANNUAL','ANSWER','ANYONE','ANYWAY','APPEAL','APPEAR','ARCADE','ARCHER','ARCTIC','ARGYLE',
+  'AROUND','ARRIVE','ARTERY','ARTIST','ASLEEP','ASPECT','ASSIGN','ASSIST','ASSUME','ATOMIC',
+  'ATTACH','ATTACK','ATTEND','AUGUST','AUTHOR','AUTUMN','AVENUE','BACKED','BADGER','BAKERY',
+  'BALLET','BALLOT','BANANA','BANNER','BARLEY','BARREL','BEACON','BEAKER','BEAUTY','BECAME',
+  'BECOME','BEFORE','BEHAVE','BEHIND','BELIEF','BELONG','BESIDE','BETTER','BEYOND','BISHOP',
+  'BITMAP','BORDER','BORROW','BOTTOM','BOUNCE','BREATH','BREEZE','BROKEN','BRONZE','BROWSE',
+  'BUBBLE','BUCKET','BUDGET','BUFFER','BUTTER','CACTUS','CALLER','CALMER','CAMPUS','CANDID',
+  'CANVAS','CARBON','CAREER','CARPET','CARROT','CASHEW','CATTLE','CAUGHT','CELERY','CENTER',
+  'CEREAL','CHANCE','CHANGE','CHARGE','CHEESE','CHOICE','CHOOSE','CHORUS','CINEMA','CIRCUS',
+  'CITRUS','CLIENT','CLOSED','CLOSET','CLOVER','CLUTCH','COARSE','COASTS','COBALT','COLONY',
+  'COLUMN','COMEDY','COMMON','COMMIT','CONDOR','COOKIE','COOLER','CORNER','COSMIC','COUPLE',
+  'COURSE','COUSIN','COVERS','COYOTE','CRADLE','CRAYON','CREATE','CREDIT','CRUISE','CRUNCH',
+  'CUSTOM','DAMAGE','DANGER','DANISH','DEBATE','DECADE','DECIDE','DEGREE','DELETE','DEMAND',
+  'DEPART','DEPEND','DEPLOY','DEPUTY','DESIGN','DETAIL','DETECT','DEVICE','DIALOG','DINNER'
  ]
 };
 const SWIPLA_ORIGIN='https://swipla.co';
@@ -178,7 +263,26 @@ function makeQuestions(random=Math.random){
  const used=new Set();return ROUND_LENGTHS.map(length=>{const pool=WORDS[length].filter(word=>!used.has(word));const word=pool[Math.floor(random()*pool.length)];used.add(word);return word});
 }
 function question(){return state.practice?'A':state.questions[state.index]}
-function availablePoints(){return Math.max(0,100-state.wrong*20-(state.hint?40:0))}
+function calculateScore({length,wrong=0,hint=false,combo=1,elapsed=0,revealed=false,practice=false}){
+ const base=10*length,remaining=base*Math.max(0,5-wrong)/5;
+ const first=wrong===0?base:0,referenceTime=1+0.8*length;
+ // Calibrated for answer times of 1 + secondsPerCharacter * length.
+ // Keep a small accuracy reward, with most points earned through fluency.
+ const speedMultiplier=0.15+9.85/(1+(Math.max(0,elapsed)/referenceTime)**2.5);
+ const comboBonus=wrong===0&&!hint?base*Math.max(0,combo-1)/10:0;
+ const multiplier=hint?0.6:1;
+ return {base:remaining,first,speedMultiplier,comboBonus,multiplier,total:practice||revealed?0:Math.round((remaining+first+comboBonus)*speedMultiplier*multiplier)};
+}
+const MAX_SCORE=ROUND_LENGTHS.reduce((sum,length,index)=>sum+calculateScore({length,combo:index+1}).total,0);
+function scorePreview(){
+ if(state.practice)return '練習 / 得点なし';
+ const score=calculateScore({length:question().length,wrong:state.wrong,hint:state.hint,combo:state.combo+1});
+ return `（基本 ${score.base} ＋ 初回 ${score.first} ＋ コンボ ${score.comboBonus}）× 速度倍率${state.hint?' × 60%':''}。速度倍率は回答までの時間で10倍から0.15倍へ減少。`;
+}
+function scoreDetails(){
+ const score=state.breakdown;
+ return `<p class="small muted">回答まで ${state.elapsed.toFixed(1)} 秒${state.combo>0?` / ${state.combo} コンボ`:''}<br>（基本 ${score.base} ＋ 初回 ${score.first} ＋ コンボ ${score.comboBonus}）× 速度 約${score.speedMultiplier.toFixed(3)}倍${state.hint?' × 60%':''}（最後に四捨五入）</p>`;
+}
 function board(text,{reference=false}={}){
  // Keep labels at 1rem; narrow screens scroll instead of shrinking the diagram.
  const columns=encodeColumns(text),size=24,left=64,top=28,width=left+columns.length*size+(reference?12:48),height=top+10*size+8;
@@ -203,49 +307,58 @@ function reference(){return `<section class="hint" aria-labelledby="hint-title">
 function explanation(text){return `<div class="decode">${Array.from(text,char=>{const value=char.charCodeAt(0);return `<div class="byte mono"><strong>${char}</strong><span>${value.toString(2).padStart(8,'0')}</span><span>0x${value.toString(16).toUpperCase()} / ${value}</span></div>`}).join('')}</div>`}
 function focusSection(id,block='start'){
  const target=document.getElementById(id);
+ if(!target)return;
  target.focus({preventScroll:true});
- target.scrollIntoView({block,behavior:'auto'});
+ // Avoid scrollIntoView scrolling the embedding page outside an iframe.
+ const rect=target.getBoundingClientRect();
+ const offset=block==='center'?(window.innerHeight-rect.height)/2:12;
+ const top=window.scrollY+rect.top-offset;
+ window.scrollTo(0,Math.max(0,top));
 }
-function start(practice=false){state={screen:'question',practice,questions:practice?['A']:makeQuestions(),index:0,score:0,results:[],wrong:0,hint:false,input:'',message:'',kind:'',earned:0};render();focusSection('answer','center')}
+function start(practice=false){state={screen:'question',practice,questions:practice?['A']:makeQuestions(),index:0,score:0,results:[],wrong:0,hint:false,input:'',message:'',kind:'',earned:0,combo:0,bestCombo:0};render();focusSection('answer','center');state.startedAt=performance.now()}
 function submit(value){
  if(state.screen!=='question')return;
  const answer=value.trim().toUpperCase();state.input=value;
  if(!/^[A-Z]+$/.test(answer)||answer.length!==question().length){state.message=`半角英字${question().length}文字で入力してください（減点なし）。`;state.kind='error';updateNotice();return}
  if(answer!==question()){
-  const previousPoints=availablePoints();state.wrong++;
-  state.message=state.practice?'まだ違うようです。明色の段をもう一度確認しよう。':previousPoints===0?'まだ違うようです。この問題の獲得可能点は0点です（追加の減点なし）。':'まだ違うようです。もう一度読んでみよう（−20点）。';
+  state.wrong++;state.combo=0;
+  state.message=state.practice?'まだ違うようです。明色の段をもう一度確認しよう。':state.wrong>5?'まだ違うようです。この問題は0点です（追加の減点なし）。引き続き解読できます。':`まだ違うようです。基本点 −${2*question().length}点（速度倍率を掛ける前）${state.wrong===1?'。初回ボーナスなし・コンボ終了':''}。もう一度読んでみよう。`;
   state.kind='error';updateNotice();return;
  }
  finishQuestion(false);
 }
-function updateNotice(){document.getElementById('notice').textContent=state.message;document.getElementById('notice').className=`notice ${state.kind}`;document.getElementById('available').textContent=state.practice?'練習 / 得点なし':`正解で ${availablePoints()} pt`}
+function updateNotice(){document.getElementById('notice').textContent=state.message;document.getElementById('notice').className=`notice ${state.kind}`;document.getElementById('available').textContent=scorePreview()}
 function finishQuestion(revealed){
  if(state.screen!=='question')return;
- state.earned=state.practice||revealed?0:availablePoints();state.score+=state.earned;state.revealed=revealed;
- if(!state.practice)state.results.push({word:question(),points:state.earned,revealed});
+ state.elapsed=Math.max(0,(performance.now()-state.startedAt)/1000);
+ state.combo=!state.practice&&!revealed&&!state.hint&&state.wrong===0?state.combo+1:0;
+ state.bestCombo=Math.max(state.bestCombo,state.combo);
+ state.breakdown=calculateScore({length:question().length,wrong:state.wrong,hint:state.hint,combo:state.combo,elapsed:state.elapsed,revealed,practice:state.practice});
+ state.earned=state.breakdown.total;state.score+=state.earned;state.revealed=revealed;
+ if(!state.practice)state.results.push({word:question(),points:state.earned,revealed,elapsed:state.elapsed,combo:state.combo,hint:state.hint,wrong:state.wrong});
  state.screen='review';render();focusSection('next','center');
 }
 function next(){
  if(state.screen!=='review')return;
  if(state.practice){start();return}
  if(state.index===state.questions.length-1){state.screen='result';render();focusSection('result-title');if(window.parent!==window)window.parent.postMessage({type:'gameover',score:state.score},SWIPLA_ORIGIN);return}
- Object.assign(state,{screen:'question',index:state.index+1,wrong:0,hint:false,input:'',message:'',kind:'',earned:0});render();focusSection('answer','center');
+ Object.assign(state,{screen:'question',index:state.index+1,wrong:0,hint:false,input:'',message:'',kind:'',earned:0});render();focusSection('answer','center');state.startedAt=performance.now();
 }
-function showHint(){if(state.screen!=='question')return;if(!state.hint){state.hint=true;render()}focusSection('hint-title')}
+function showHint(){if(state.screen!=='question')return;if(!state.hint){state.hint=true;state.combo=0;render()}focusSection('hint-title')}
 function render(){
  let html=header();
  if(state.screen==='menu'){
-  html=`<section class="card start-screen"><div class="icon mono">01</div><p class="eyebrow">A LITTLE GAME OF BINARY</p><h1 id="menu-title" tabindex="-1">Read Binary Text</h1><p>明暗のマスを読んで、隠れた文字列を解読しよう。</p>${rules()}<p><b>本番は全8問・800点満点</b><br>英大文字 A〜Z、2文字から6文字へ。時間制限なし。<br>各問100点。不正解は−20点、早見表は−40点。<br>答えを見た問題は0点。小文字入力も受け付ける。</p><div class="actions"><button class="primary full" data-action="practice">まずは練習する（1文字）</button><button class="secondary full" data-action="start">練習をスキップして本番へ</button></div></section>`;
+  html=`<section class="card start-screen"><div class="icon mono">01</div><p class="eyebrow">A LITTLE GAME OF BINARY</p><h1 id="menu-title" tabindex="-1">Read Binary Text</h1><p>明暗のマスを読んで、隠れた文字列を解読しよう。</p>${rules()}<p><b>本番は全8問・理論上限 ${MAX_SCORE}点</b><br>英大文字 A〜Z、2文字から6文字へ。時間制限なし。<br>英単語・略語・国や地域のコードから出題。<br>基本点は文字数 × 10。初回正解で基本点と同額を加点。<br>合計に速度倍率を掛ける。速く読むほど大きく得点が伸びる。<br>早見表なしの初回正解を続けるとコンボ成立。<br>2コンボで基本点の10%、以後10%ずつ加点。<br>不正解1回につき基本点の20%を減点（基本点は最低0）。<br>早見表を使うと、その問題の合計得点は60%。<br>不正解・早見表・答えの表示でコンボ終了。<br>答えを見た問題は0点。小文字入力も受け付ける。</p><div class="actions"><button class="primary full" data-action="practice">まずは練習する（1文字）</button><button class="secondary full" data-action="start">練習をスキップして本番へ</button></div></section>`;
  }else if(state.screen==='result'){
   const solved=state.results.filter(item=>!item.revealed).length;
-  html+=`<section class="card result"><p class="eyebrow mono">TRANSMISSION COMPLETE</p><h2 id="result-title" tabindex="-1">解読、おつかれさま。</h2><div class="score mono">${state.score}</div><p class="muted mono">/ 800 pt</p><p class="small muted">${solved} / 8 問を解読</p><div class="result-list">${state.results.map(item=>`<div class="result-row mono"><span>${item.word}${item.revealed?' <span class="muted small">答えを表示</span>':''}</span><span>${item.points} pt</span></div>`).join('')}</div></section><div class="actions"><button class="primary" data-action="start">別の問題でもう一度 →</button><button class="secondary" data-action="menu">タイトルへ</button></div>`;
+  html+=`<section class="card result"><p class="eyebrow mono">TRANSMISSION COMPLETE</p><h2 id="result-title" tabindex="-1">解読、おつかれさま。</h2><div class="score mono">${state.score}</div><p class="muted mono">/ ${MAX_SCORE} pt</p><p class="small muted">${solved} / 8 問を解読 / 最大 ${state.bestCombo} コンボ</p><div class="result-list">${state.results.map(item=>`<div class="result-row mono"><span>${item.word}<br><span class="muted small">${item.revealed?'答えを表示':`${item.elapsed.toFixed(1)}秒${item.combo>0?` / ${item.combo}コンボ`:''}${item.hint?' / 早見表':''}${item.wrong>0?` / 誤答${item.wrong}回`:''}`}</span></span><span>${item.points} pt</span></div>`).join('')}</div></section><div class="actions"><button class="primary" data-action="start">別の問題でもう一度 →</button><button class="secondary" data-action="menu">タイトルへ</button></div>`;
  }else{
   const text=question(),review=state.screen==='review';
-  html+=`<div class="status"><span class="mono">${state.practice?'PRACTICE':`QUESTION ${String(state.index+1).padStart(2,'0')} / 08`}</span><span>${state.practice?'時間制限なし':`<strong class="mono">${state.score}</strong> / 800 pt`}</span></div><div class="progress"><span style="width:${state.practice?0:(state.index+(review?1:0))/8*100}%"></span></div><section class="card"><div class="question-title"><h2 id="question-title" tabindex="-1">${state.practice?'まずは1文字、読んでみよう':review?'文字列を確認しよう':'この画像を解読せよ'}</h2><span class="pill mono">${text.length} BYTE${text.length>1?'S':''}</span></div><div class="board">${board(text)}${legend()}</div>`;
+  html+=`<div class="status"><span class="mono">${state.practice?'PRACTICE':`QUESTION ${String(state.index+1).padStart(2,'0')} / 08`}</span><span>${state.practice?'時間制限なし':`<strong class="mono">${state.score}</strong> / ${MAX_SCORE} pt`}</span></div><div class="progress"><span style="width:${state.practice?0:(state.index+(review?1:0))/8*100}%"></span></div><section class="card"><div class="question-title"><h2 id="question-title" tabindex="-1">${state.practice?'まずは1文字、読んでみよう':review?'文字列を確認しよう':'この画像を解読せよ'}</h2><span class="pill mono">${text.length} BYTE${text.length>1?'S':''}</span></div><div class="board">${board(text)}${legend()}</div>`;
   if(state.practice)html+='<p class="practice-note">SYNCの下から8段がデータ。明るいのは <b class="accent">64</b> と <b class="accent">1</b> の段。足すと65。ASCIIの65は <b class="accent">A</b> なので、Aと入力してみよう。</p>';
-  if(review){html+=`<p id="answer-result" class="notice ${state.revealed?'':'success'}">${state.revealed?`答えは ${text}。この問題は0点。`:state.practice?`正解！ 答えは ${text}。この読み方で、次は単語を解読しよう。`:`正解！ 答えは ${text}。${state.earned}点獲得。`}</p>${explanation(text)}<p class="small muted" style="margin-top:12px">2進数は画像のデータ行と同じ、上から下の順。</p><button id="next" class="primary full" data-action="next" aria-describedby="answer-result">${state.practice?'本番を始める':state.index===7?'結果を見る':'次の文字列へ'} →</button>`}
+  if(review){html+=`<p id="answer-result" class="notice ${state.revealed?'':'success'}">${state.revealed?`答えは ${text}。この問題は0点。`:state.practice?`正解！ 答えは ${text}。この読み方で、次は単語を解読しよう。`:`正解！ 答えは ${text}。${state.earned}点獲得。${state.combo>1?` ${state.combo}コンボ！`:''}`}</p>${!state.practice&&!state.revealed?scoreDetails():''}${explanation(text)}<p class="small muted" style="margin-top:12px">2進数は画像のデータ行と同じ、上から下の順。</p><button id="next" class="primary full" data-action="next" aria-describedby="answer-result">${state.practice?'本番を始める':state.index===7?'結果を見る':'次の文字列へ'} →</button>`}
   else{
-   html+=`<div role="group" aria-labelledby="answer-label"><label id="answer-label" class="field" for="answer">読み取った${text.length}文字を入力（英大文字 A〜Z）</label><div class="form-row"><input id="answer" name="answer" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="${'＿'.repeat(text.length)}" value="${escapeHTML(state.input)}" aria-describedby="notice"><button class="primary" type="button" data-action="answer">答える →</button></div></div><p id="notice" role="status" class="notice ${state.kind}">${escapeHTML(state.message)}</p><div id="available" class="small muted">${state.practice?'練習 / 得点なし':`正解で ${availablePoints()} pt`}</div><div class="tools"><button data-action="hint">${state.hint?'早見表へ（表示中）':`ASCII早見表${state.practice?'':'（−40点）'}`}</button><button data-action="reveal">答えを見る${state.practice?'':'（0点）'}</button></div>${state.hint?reference():''}`;
+   html+=`<div role="group" aria-labelledby="answer-label"><label id="answer-label" class="field" for="answer">読み取った${text.length}文字を入力（英大文字 A〜Z）</label><div class="form-row"><input id="answer" name="answer" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="${'＿'.repeat(text.length)}" value="${escapeHTML(state.input)}" aria-describedby="notice"><button class="primary" type="button" data-action="answer">答える →</button></div></div><p id="notice" role="status" class="notice ${state.kind}">${escapeHTML(state.message)}</p><div id="available" class="small muted">${scorePreview()}</div><div class="tools"><button data-action="hint">${state.hint?'早見表へ（表示中）':`ASCII早見表${state.practice?'':'（得点60%・コンボ終了）'}`}</button><button data-action="reveal">答えを見る${state.practice?'':'（0点）'}</button></div>${state.hint?reference():''}`;
   }
   html+=`</section><details><summary>画像の読み方を確認</summary>${rules()}</details>`;
  }
